@@ -8,9 +8,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 public class FlappyBirds extends GameScreen {
 
@@ -24,6 +22,7 @@ public class FlappyBirds extends GameScreen {
     private ChimneyGroup chimneyGroup;
 
     private int Point = 0;
+    public static int HighestPoint = 0;
 
     private int BEGIN_SCREEN = 0;
     private int GAMEPLAY_SCREEN = 1;
@@ -62,10 +61,53 @@ public class FlappyBirds extends GameScreen {
         BeginGame();
     }
 
+    public static void LoadHighestPoint() {
+        try {
+            //Bước 1: Tạo đối tượng luồng và liên kết nguồn dữ liệu
+            File f = new File("C:/FlappyBirds/Save/HighestPoint.txt");
+            FileReader fr = new FileReader(f);
+            //Bước 2: Đọc dữ liệu
+            BufferedReader br = new BufferedReader(fr);
+            String line;
+            if ((line = br.readLine()) != null){
+                System.out.println(line);
+                HighestPoint = Integer.parseInt(line);
+            }
+            //Bước 3: Đóng luồng
+            fr.close();
+            br.close();
+            System.out.println("Load Highest Point thanh cong");
+        } catch (Exception ex) {
+            System.out.println("Loi doc file: "+ex);
+        }
+    }
     public static void main(String[] args) {
 
         new FlappyBirds();
+        LoadHighestPoint();
 
+    }
+
+
+
+    private void SaveHighestPoint(){
+        try {
+            //Bước 1: Tạo đối tượng luồng và liên kết nguồn dữ liệu
+            File f = new File("C:/FlappyBirds/Save/HighestPoint.txt");
+            FileWriter fw = new FileWriter(f);
+            //Bước 2: Ghi dữ liệu
+            fw.write(HighestPoint + "");
+//            LoadHighestPoint();
+//            if (Point > HighestPoint){
+//                HighestPoint = Point;
+//
+//            }
+            //Bước 3: Đóng luồng
+            fw.close();
+            System.out.println(" Done !");
+        } catch (IOException ex) {
+            System.out.println("Loi ghi file: " + ex);
+        }
     }
 
     private void resetGame(){
@@ -149,15 +191,27 @@ public class FlappyBirds extends GameScreen {
 
 
         if(CurrentScreen == BEGIN_SCREEN){
-            g2.setColor(Color.red);
-            g2.drawString("Press space to play game",200,300);
+            g2.setColor(Color.BLACK);
+            g2.setFont(new Font("Arial", Font.BOLD, 24));
+            g2.drawString("Highest Point: " + HighestPoint, 300, 350);
+            g2.setFont(new Font("Arial", Font.BOLD, 24));
+            g2.drawString("Press space to play game",250,380);
         }
 
         if(CurrentScreen == GAMEOVER_SCREEN){
-            g2.setColor(Color.red);
-            g2.drawString("Press space to turn back begin screen",200,300);
+            g2.setColor(Color.BLACK);
+            g2.setFont(new Font("TimesRoman", Font.BOLD, 24));
+            g2.drawString("Total Point: " + Point, 300, 350);
+            g2.setFont(new Font("TimesRoman", Font.BOLD, 24));
+            g2.drawString("Press space to replay",250,380);
+            if (Point > HighestPoint){
+                HighestPoint = Point;
+                SaveHighestPoint();
+            }
+
         }
 
+        g2.setFont(new Font("TimesRoman", Font.BOLD, 24));
         g2.setColor(Color.red);
         g2.drawString("Point: " + Point, 20, 50);
     }

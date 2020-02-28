@@ -29,7 +29,7 @@ public class ChimneyGroup {
         int a;
         a = random.nextInt(10);
 
-        return a*35;
+        return a*30;
     }
 
 

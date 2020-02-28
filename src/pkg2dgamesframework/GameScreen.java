@@ -5,10 +5,15 @@
  */
 package pkg2dgamesframework;
 
+import flappybirds.FlappyBirds;
+
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import javax.swing.JFrame;
 
 /**
@@ -47,8 +52,9 @@ public abstract class GameScreen extends JFrame implements KeyListener{
         MASTER_HEIGHT = CUSTOM_HEIGHT;
         InitThread();
         InitScreen();
+//        LoadHighestPoint();
     }
-    
+
     private void InitScreen(){
         
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

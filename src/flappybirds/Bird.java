@@ -49,7 +49,7 @@ public class Bird extends Objects {
     public void update(long deltaTime){
 
         vt += FlappyBirds.g;
-        System.out.println("vt= " +vt);
+//        System.out.println("vt= " +vt);
 
         this.setPosY(this.getPosY() + vt);
         this.rect.setLocation((int ) this.getPosX(),(int) this.getPosY());
